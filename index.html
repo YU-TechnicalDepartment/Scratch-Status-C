@@ -70,12 +70,11 @@
       margin-bottom: 24px;
     }
 
-    /* Statuspage 風 uptime バー */
     .chart {
       display: flex;
-      gap: 2px;              /* ← バー同士の隙間を小さく */
+      gap: 2px;
       padding: 16px 0;
-      overflow: hidden;      /* ← 初期は一行に収める */
+      overflow: hidden;
       max-width: 100%;
     }
 
@@ -86,7 +85,7 @@
     }
 
     .bar {
-      width: 10px;           /* ← 太さは最初の UI と同じ */
+      width: 10px;
       height: 60px;
       border-radius: 4px;
       transition: transform 0.12s ease;
@@ -94,7 +93,7 @@
     }
 
     .bar:hover {
-      transform: scale(1.05); /* ← 控えめな拡大 */
+      transform: scale(1.05);
     }
 
     .green { background: var(--md-sys-color-success); }
@@ -116,7 +115,6 @@
       opacity: 0.85;
     }
 
-    /* Material 風ツールチップ */
     .tooltip {
       position: fixed;
       z-index: 1000;
@@ -132,6 +130,16 @@
       transition: opacity 0.12s ease, transform 0.12s ease;
       white-space: nowrap;
     }
+
+    .contact-link {
+      color: var(--md-sys-color-primary);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -143,15 +151,13 @@
 
   <div class="container">
 
-    <!-- 稼働率カード -->
     <md-elevated-card id="stats-card">
       <h2>稼働率</h2>
       <p id="uptime-text">読み込み中…</p>
     </md-elevated-card>
 
-    <!-- 日次ステータス（Statuspage 風バー） -->
     <md-elevated-card>
-      <h2>Daily Status</h2>
+      <h2>クラウド変数の稼働状況</h2>
       <p>
         Scratch Cloud API の稼働状況を日次で記録しています。<br>
         緑は正常稼働、赤は異常があった日を表します。
@@ -165,9 +171,19 @@
       </div>
     </md-elevated-card>
 
+    <md-elevated-card>
+      <h2>お問い合わせ</h2>
+      <p>
+        機能の提案などは、
+        <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">
+          こちら
+        </a>
+        からお願いします。
+      </p>
+    </md-elevated-card>
+
   </div>
 
-  <!-- Material 風ツールチップ -->
   <div id="tooltip" class="tooltip"></div>
 
   <script>
@@ -209,7 +225,7 @@
         uptimeText.textContent =
           `稼働率：${uptime}%（正常：${green}日 / 異常：${red}日）`;
 
-        const MAX_DAYS = 83;  /* ← 1行に表示する日数を 83 に変更 */
+        const MAX_DAYS = 83;
         const visibleDays = days.slice(-MAX_DAYS);
         const hiddenDays = days.slice(0, -MAX_DAYS);
 
