@@ -1,0 +1,55 @@
+name: Daily Status Check
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 毎日0時（UTC）
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch Scratch Cloud Logs
+        run: |
+          curl -s -o logs.json -w "%{http_code}" \
+          "https://clouddata.scratch.mit.edu/logs?projectid=60917032&limit=40&offset=0" \
+          > status_code.txt
+
+      - name: Determine status
+        run: |
+          node << 'EOF'
+          const fs = require('fs');
+
+          const statusCode = fs.readFileSync('status_code.txt', 'utf8').trim();
+
+          // ★ 502 以外は green
+          const status = (statusCode === "502") ? "red" : "green";
+
+          const today = new Date().toISOString().slice(0, 10);
+
+          let data = [];
+          if (fs.existsSync('data.json')) {
+            data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+          }
+
+          const idx = data.findIndex(d => d.date === today);
+          if (idx >= 0) {
+            data[idx].status = status;
+            data[idx].code = statusCode;
+          } else {
+            data.push({ date: today, status, code: statusCode });
+          }
+
+          fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data.json
+          git commit -m "Update daily status" || echo "No changes"
+          git push
