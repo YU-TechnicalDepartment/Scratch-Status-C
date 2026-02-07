@@ -1,5 +1,8 @@
 name: Daily Status Check
 
+permissions:
+  contents: write   # ← これが超重要！
+
 on:
   schedule:
     - cron: "0 0 * * *"  # 毎日0時（UTC）
