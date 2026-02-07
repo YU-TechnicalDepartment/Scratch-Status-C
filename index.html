@@ -19,6 +19,8 @@
       --md-sys-color-outline: #79747E;
       --md-sys-color-error: #B3261E;
       --md-sys-color-success: #4CAF50;
+      --tooltip-bg: #313033;
+      --tooltip-fg: #F5EFF7;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -29,6 +31,8 @@
         --md-sys-color-outline: #938F99;
         --md-sys-color-error: #F2B8B5;
         --md-sys-color-success: #81C995;
+        --tooltip-bg: #E6E1E5;
+        --tooltip-fg: #1C1B1F;
       }
     }
 
@@ -64,12 +68,12 @@
       margin-bottom: 24px;
     }
 
-    /* uptime bar line (Statuspage 風) */
+    /* Statuspage 風 uptime バー */
     .chart {
       display: flex;
-      gap: 2px;
+      gap: 2px;              /* バーとバーの隙間を小さく */
       padding: 16px 0;
-      overflow: hidden;
+      overflow: hidden;      /* 初期は一行に収める */
       max-width: 100%;
     }
 
@@ -83,7 +87,8 @@
       width: 4px;
       height: 34px;
       border-radius: 2px;
-      transition: transform 0.15s ease;
+      transition: transform 0.12s ease;
+      cursor: pointer;
     }
 
     .bar:hover {
@@ -92,17 +97,6 @@
 
     .green { background: var(--md-sys-color-success); }
     .red   { background: var(--md-sys-color-error); }
-
-    .date-label {
-      font-size: 10px;
-      margin-top: 4px;
-      color: var(--md-sys-color-outline);
-    }
-
-    .code-label {
-      font-size: 10px;
-      color: var(--md-sys-color-outline);
-    }
 
     .more-button {
       display: none;
@@ -118,6 +112,23 @@
 
     .more-button:hover {
       opacity: 0.85;
+    }
+
+    /* Material 風ツールチップ */
+    .tooltip {
+      position: fixed;
+      z-index: 1000;
+      background: var(--tooltip-bg);
+      color: var(--tooltip-fg);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -151,7 +162,25 @@
 
   </div>
 
+  <!-- Material 風ツールチップ -->
+  <div id="tooltip" class="tooltip"></div>
+
   <script>
+    const tooltip = document.getElementById('tooltip');
+
+    function showTooltip(text, x, y) {
+      tooltip.textContent = text;
+      tooltip.style.left = x + 8 + 'px';
+      tooltip.style.top = y - 8 + 'px';
+      tooltip.style.opacity = '1';
+      tooltip.style.transform = 'translateY(-6px)';
+    }
+
+    function hideTooltip() {
+      tooltip.style.opacity = '0';
+      tooltip.style.transform = 'translateY(-4px)';
+    }
+
     fetch('data.json?cachebust=' + Date.now(), { cache: "no-store" })
       .then(res => res.json())
       .then(days => {
@@ -188,18 +217,20 @@
             const bar = document.createElement('div');
             bar.className = 'bar ' + day.status;
 
-            const date = document.createElement('div');
-            date.className = 'date-label';
-            date.textContent = day.date.slice(5);
+            bar.addEventListener('mouseenter', (e) => {
+              const text = `${day.date} / HTTP ${day.code} / ${day.status === 'green' ? '正常' : '異常'}`;
+              showTooltip(text, e.clientX, e.clientY);
+            });
 
-            const code = document.createElement('div');
-            code.className = 'code-label';
-            code.textContent = "HTTP " + day.code;
+            bar.addEventListener('mousemove', (e) => {
+              showTooltip(tooltip.textContent, e.clientX, e.clientY);
+            });
+
+            bar.addEventListener('mouseleave', () => {
+              hideTooltip();
+            });
 
             wrap.appendChild(bar);
-            wrap.appendChild(date);
-            wrap.appendChild(code);
-
             chart.appendChild(wrap);
           });
         }
