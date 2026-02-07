@@ -19,6 +19,7 @@
       --md-sys-color-outline: #79747E;
       --md-sys-color-error: #B3261E;
       --md-sys-color-success: #4CAF50;
+
       --tooltip-bg: #313033;
       --tooltip-fg: #F5EFF7;
     }
@@ -31,6 +32,7 @@
         --md-sys-color-outline: #938F99;
         --md-sys-color-error: #F2B8B5;
         --md-sys-color-success: #81C995;
+
         --tooltip-bg: #E6E1E5;
         --tooltip-fg: #1C1B1F;
       }
@@ -71,9 +73,9 @@
     /* Statuspage 風 uptime バー */
     .chart {
       display: flex;
-      gap: 2px;              /* バーとバーの隙間を小さく */
+      gap: 2px;              /* ← バー同士の隙間を小さく */
       padding: 16px 0;
-      overflow: hidden;      /* 初期は一行に収める */
+      overflow: hidden;      /* ← 初期は一行に収める */
       max-width: 100%;
     }
 
@@ -84,15 +86,15 @@
     }
 
     .bar {
-      width: 4px;
-      height: 34px;
-      border-radius: 2px;
+      width: 10px;           /* ← 最初の太さに戻した */
+      height: 60px;
+      border-radius: 4px;
       transition: transform 0.12s ease;
       cursor: pointer;
     }
 
     .bar:hover {
-      transform: scale(1.05);
+      transform: scale(1.05); /* ← 控えめな拡大 */
     }
 
     .green { background: var(--md-sys-color-success); }
@@ -121,8 +123,8 @@
       background: var(--tooltip-bg);
       color: var(--tooltip-fg);
       padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 11px;
+      border-radius: 6px;
+      font-size: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       pointer-events: none;
       opacity: 0;
