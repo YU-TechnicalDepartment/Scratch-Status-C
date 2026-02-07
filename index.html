@@ -86,7 +86,7 @@
     }
 
     .bar {
-      width: 10px;           /* ← 最初の太さに戻した */
+      width: 10px;           /* ← 太さは最初の UI と同じ */
       height: 60px;
       border-radius: 4px;
       transition: transform 0.12s ease;
@@ -151,8 +151,11 @@
 
     <!-- 日次ステータス（Statuspage 風バー） -->
     <md-elevated-card>
-      <h2>Daily Status（過去90日）</h2>
-      <p>Scratch Cloud API の稼働状況を日次で記録しています。</p>
+      <h2>Daily Status</h2>
+      <p>
+        Scratch Cloud API の稼働状況を日次で記録しています。<br>
+        緑は正常稼働、赤は異常があった日を表します。
+      </p>
 
       <div id="chart" class="chart"></div>
 
@@ -206,7 +209,7 @@
         uptimeText.textContent =
           `稼働率：${uptime}%（正常：${green}日 / 異常：${red}日）`;
 
-        const MAX_DAYS = 90;
+        const MAX_DAYS = 83;  /* ← 1行に表示する日数を 83 に変更 */
         const visibleDays = days.slice(-MAX_DAYS);
         const hiddenDays = days.slice(0, -MAX_DAYS);
 
