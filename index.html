@@ -2,41 +2,68 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Status Monitor</title>
+  <title>Scratch Cloud Status</title>
+
+  <script type="module" src="https://esm.run/@material/web/all.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --md-sys-color-primary: #6750A4;
+      --md-sys-color-surface: #FFFBFE;
+      --md-sys-color-on-surface: #1C1B1F;
+      --md-sys-color-outline: #79747E;
+      --md-sys-color-error: #B3261E;
+      --md-sys-color-success: #4CAF50;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --md-sys-color-primary: #D0BCFF;
+        --md-sys-color-surface: #1C1B1F;
+        --md-sys-color-on-surface: #E6E1E5;
+        --md-sys-color-outline: #938F99;
+        --md-sys-color-error: #F2B8B5;
+        --md-sys-color-success: #81C995;
+      }
+    }
+
     body {
       margin: 0;
-      background: #f5f5f5;
+      background: var(--md-sys-color-surface);
       font-family: "Roboto", sans-serif;
-      color: #333;
+      color: var(--md-sys-color-on-surface);
     }
 
     header {
-      background: #6200ee;
+      background: var(--md-sys-color-primary);
       color: white;
-      padding: 20px;
+      padding: 20px 24px;
       font-size: 24px;
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     .container {
-      padding: 20px;
-      max-width: 900px;
+      padding: 24px;
+      max-width: 1000px;
       margin: auto;
     }
 
-    .card {
-      background: white;
-      border-radius: 12px;
+    md-elevated-card {
+      width: 100%;
       padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      box-sizing: border-box;
+      margin-bottom: 24px;
     }
 
     .chart {
       display: flex;
-      gap: 10px;
+      gap: 16px;
       padding: 20px 0;
       overflow-x: auto;
     }
@@ -45,55 +72,72 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 40px;
+      min-width: 50px;
     }
 
     .bar {
-      width: 14px;
-      height: 60px;
-      border-radius: 4px;
+      width: 18px;
+      height: 80px;
+      border-radius: 6px;
       transition: transform 0.2s ease;
     }
 
     .bar:hover {
-      transform: scale(1.2);
+      transform: scale(1.15);
     }
 
-    .green { background: #4caf50; }
-    .red   { background: #f44336; }
+    .green { background: var(--md-sys-color-success); }
+    .red   { background: var(--md-sys-color-error); }
 
     .date-label {
       font-size: 12px;
-      margin-top: 6px;
-      color: #555;
+      margin-top: 8px;
+      color: var(--md-sys-color-outline);
     }
 
     .code-label {
-      font-size: 10px;
-      color: #777;
+      font-size: 11px;
+      color: var(--md-sys-color-outline);
     }
   </style>
 </head>
 
 <body>
-  <header>Scratch Cloud Status</header>
+  <header>
+    <span class="material-symbols-rounded">cloud_sync</span>
+    Scratch Cloud Status
+  </header>
 
   <div class="container">
-    <div class="card">
+
+    <!-- 稼働率カード -->
+    <md-elevated-card id="stats-card">
+      <h2>稼働率</h2>
+      <p id="uptime-text">読み込み中…</p>
+    </md-elevated-card>
+
+    <!-- 日次ステータス -->
+    <md-elevated-card>
       <h2>Daily Status</h2>
       <p>Scratch Cloud API の稼働状況を毎日記録しています。</p>
-
       <div id="chart" class="chart"></div>
-    </div>
+    </md-elevated-card>
+
   </div>
 
   <script>
-    fetch('data.json')
+    fetch('data.json?cachebust=' + Date.now(), { cache: "no-store" })
       .then(res => res.json())
       .then(days => {
         const chart = document.getElementById('chart');
 
+        let green = 0;
+        let red = 0;
+
         days.forEach(day => {
+          if (day.status === "green") green++;
+          else red++;
+
           const wrap = document.createElement('div');
           wrap.className = 'bar-wrapper';
 
@@ -114,6 +158,10 @@
 
           chart.appendChild(wrap);
         });
+
+        const uptime = (green / (green + red) * 100).toFixed(1);
+        document.getElementById('uptime-text').textContent =
+          `稼働率：${uptime}%（正常：${green}日 / 異常：${red}日）`;
       });
   </script>
 </body>
