@@ -1,7 +1,7 @@
 name: Daily Status Check
 
 permissions:
-  contents: write   # ← これが超重要！
+  contents: write
 
 on:
   schedule:
@@ -15,9 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # ★ これが無いと Node が無くて workflow が起動しない
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
       - name: Fetch Scratch Cloud Logs
         run: |
-          curl -s -o logs.json -w "%{http_code}" \
+          curl -s -o logs.json -w "%{http_code}\n" \
           "https://clouddata.scratch.mit.edu/logs?projectid=60917032&limit=40&offset=0" \
           > status_code.txt
 
@@ -27,15 +32,16 @@ jobs:
           const fs = require('fs');
 
           const statusCode = fs.readFileSync('status_code.txt', 'utf8').trim();
-
-          // ★ 502 以外は green
           const status = (statusCode === "502") ? "red" : "green";
-
           const today = new Date().toISOString().slice(0, 10);
 
           let data = [];
-          if (fs.existsSync('data.json')) {
-            data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+          try {
+            if (fs.existsSync('data.json')) {
+              data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+            }
+          } catch (e) {
+            data = [];
           }
 
           const idx = data.findIndex(d => d.date === today);
