@@ -221,6 +221,61 @@
   <div id="tooltip" class="tooltip"></div>
 
   <script>
+    /* ---------- 言語データ ---------- */
+    const texts = {
+      ja: {
+        uptime: "稼働率",
+        uptimeText: (uptime, green, red) =>
+          `稼働率：${uptime}%（正常：${green}日 / 異常：${red}日）`,
+
+        tooltip: (day) =>
+          `${day.date} / HTTP ${day.code} / ${day.status === 'green' ? '正常' : '異常'}`,
+
+        statusTitle: "クラウド変数の稼働状況",
+        statusDesc: "Scratchクラウド変数の稼働状況を日次で記録しています。<br>緑は正常稼働、赤は異常があった日を表します。",
+        more: "もっと見る",
+        contact: "お問い合わせ",
+        contactDesc: `機能の提案などは、<a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">こちら</a>からお願いします。`
+      },
+
+      en: {
+        uptime: "Uptime",
+        uptimeText: (uptime, green, red) =>
+          `Uptime: ${uptime}% (Normal: ${green} days / Issues: ${red} days)`,
+
+        tooltip: (day) =>
+          `${day.date} / HTTP ${day.code} / ${day.status === 'green' ? 'Normal' : 'Issue'}`,
+
+        statusTitle: "Cloud Variable Status",
+        statusDesc: "Daily records of Scratch Cloud Variable availability.<br>Green means normal operation, red indicates an issue.",
+        more: "Show more",
+        contact: "Contact",
+        contactDesc: `For feature requests, please visit <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">this page</a>.`
+      }
+    };
+
+    const langSelect = document.getElementById("lang-select");
+
+    function applyLanguage(lang) {
+      document.getElementById("uptime-title").innerHTML = texts[lang].uptime;
+      document.getElementById("status-title").innerHTML = texts[lang].statusTitle;
+      document.getElementById("status-desc").innerHTML = texts[lang].statusDesc;
+      document.getElementById("more-btn").innerHTML =
+        `<span class="material-symbols-rounded">arrow_back</span>${texts[lang].more}`;
+      document.getElementById("contact-title").innerHTML = texts[lang].contact;
+      document.getElementById("contact-desc").innerHTML = texts[lang].contactDesc;
+
+      if (window._lastUptimeData) {
+        const { uptime, green, red } = window._lastUptimeData;
+        document.getElementById("uptime-text").innerHTML =
+          texts[lang].uptimeText(uptime, green, red);
+      }
+    }
+
+    langSelect.addEventListener("change", () => {
+      applyLanguage(langSelect.value);
+    });
+
     /* ---------- ツールチップ ---------- */
     const tooltip = document.getElementById('tooltip');
 
@@ -236,42 +291,6 @@
       tooltip.style.opacity = '0';
       tooltip.style.transform = 'translateY(-4px)';
     }
-
-    /* ---------- 言語切り替え ---------- */
-    const langSelect = document.getElementById("lang-select");
-
-    const texts = {
-      ja: {
-        uptime: "稼働率",
-        statusTitle: "クラウド変数の稼働状況",
-        statusDesc: "Scratchクラウド変数の稼働状況を日次で記録しています。<br>緑は正常稼働、赤は異常があった日を表します。",
-        more: "もっと見る",
-        contact: "お問い合わせ",
-        contactDesc: `機能の提案などは、<a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">こちら</a>からお願いします。`
-      },
-      en: {
-        uptime: "Uptime",
-        statusTitle: "Cloud Variable Status",
-        statusDesc: "Daily records of Scratch Cloud Variable availability.<br>Green means normal operation, red indicates an issue.",
-        more: "Show more",
-        contact: "Contact",
-        contactDesc: `For feature requests, please visit <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">this page</a>.`
-      }
-    };
-
-    function applyLanguage(lang) {
-      document.getElementById("uptime-title").innerHTML = texts[lang].uptime;
-      document.getElementById("status-title").innerHTML = texts[lang].statusTitle;
-      document.getElementById("status-desc").innerHTML = texts[lang].statusDesc;
-      document.getElementById("more-btn").innerHTML =
-        `<span class="material-symbols-rounded">arrow_back</span>${texts[lang].more}`;
-      document.getElementById("contact-title").innerHTML = texts[lang].contact;
-      document.getElementById("contact-desc").innerHTML = texts[lang].contactDesc;
-    }
-
-    langSelect.addEventListener("change", () => {
-      applyLanguage(langSelect.value);
-    });
 
     /* ---------- データ読み込み ---------- */
     fetch('data.json?cachebust=' + Date.now(), { cache: "no-store" })
@@ -294,8 +313,11 @@
         });
 
         const uptime = (green / (green + red) * 100).toFixed(1);
-        uptimeText.textContent =
-          `稼働率：${uptime}%（正常：${green}日 / 異常：${red}日）`;
+
+        window._lastUptimeData = { uptime, green, red };
+
+        uptimeText.innerHTML =
+          texts[langSelect.value].uptimeText(uptime, green, red);
 
         const MAX_DAYS = 83;
         const visibleDays = days.slice(-MAX_DAYS);
@@ -311,7 +333,7 @@
             bar.className = 'bar ' + day.status;
 
             bar.addEventListener('mouseenter', (e) => {
-              const text = `${day.date} / HTTP ${day.code} / ${day.status === 'green' ? '正常' : '異常'}`;
+              const text = texts[langSelect.value].tooltip(day);
               showTooltip(text, e.clientX, e.clientY);
             });
 
