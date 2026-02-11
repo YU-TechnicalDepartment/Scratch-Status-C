@@ -58,6 +58,21 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
+    /* 言語切り替え UI */
+    #lang-area {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #lang-select {
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+
     .container {
       padding: 24px;
       max-width: 1000px;
@@ -142,33 +157,42 @@
       text-decoration: underline;
     }
   </style>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TZTJF25RP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-0TZTJF25RP');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TZTJF25RP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0TZTJF25RP');
+  </script>
 </head>
 
 <body>
   <header>
     <span class="material-symbols-rounded">cloud_sync</span>
     Scratch Cloud Status
+
+    <!-- 言語切り替え UI -->
+    <div id="lang-area">
+      <span class="material-symbols-rounded">public</span>
+      <select id="lang-select">
+        <option value="ja">日本語</option>
+        <option value="en">English</option>
+      </select>
+    </div>
   </header>
 
   <div class="container">
 
     <md-elevated-card id="stats-card">
-      <h2>稼働率</h2>
+      <h2 id="uptime-title">稼働率</h2>
       <p id="uptime-text">読み込み中…</p>
     </md-elevated-card>
 
     <md-elevated-card>
-      <h2>クラウド変数の稼働状況</h2>
-      <p>
+      <h2 id="status-title">クラウド変数の稼働状況</h2>
+      <p id="status-desc">
         Scratchクラウド変数の稼働状況を日次で記録しています。<br>
         緑は正常稼働、赤は異常があった日を表します。
       </p>
@@ -182,8 +206,8 @@
     </md-elevated-card>
 
     <md-elevated-card>
-      <h2>お問い合わせ</h2>
-      <p>
+      <h2 id="contact-title">お問い合わせ</h2>
+      <p id="contact-desc">
         機能の提案などは、
         <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">
           こちら
@@ -197,6 +221,7 @@
   <div id="tooltip" class="tooltip"></div>
 
   <script>
+    /* ---------- ツールチップ ---------- */
     const tooltip = document.getElementById('tooltip');
 
     function showTooltip(text, x, y) {
@@ -212,6 +237,43 @@
       tooltip.style.transform = 'translateY(-4px)';
     }
 
+    /* ---------- 言語切り替え ---------- */
+    const langSelect = document.getElementById("lang-select");
+
+    const texts = {
+      ja: {
+        uptime: "稼働率",
+        statusTitle: "クラウド変数の稼働状況",
+        statusDesc: "Scratchクラウド変数の稼働状況を日次で記録しています。<br>緑は正常稼働、赤は異常があった日を表します。",
+        more: "もっと見る",
+        contact: "お問い合わせ",
+        contactDesc: `機能の提案などは、<a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">こちら</a>からお願いします。`
+      },
+      en: {
+        uptime: "Uptime",
+        statusTitle: "Cloud Variable Status",
+        statusDesc: "Daily records of Scratch Cloud Variable availability.<br>Green means normal operation, red indicates an issue.",
+        more: "Show more",
+        contact: "Contact",
+        contactDesc: `For feature requests, please visit <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">this page</a>.`
+      }
+    };
+
+    function applyLanguage(lang) {
+      document.getElementById("uptime-title").innerHTML = texts[lang].uptime;
+      document.getElementById("status-title").innerHTML = texts[lang].statusTitle;
+      document.getElementById("status-desc").innerHTML = texts[lang].statusDesc;
+      document.getElementById("more-btn").innerHTML =
+        `<span class="material-symbols-rounded">arrow_back</span>${texts[lang].more}`;
+      document.getElementById("contact-title").innerHTML = texts[lang].contact;
+      document.getElementById("contact-desc").innerHTML = texts[lang].contactDesc;
+    }
+
+    langSelect.addEventListener("change", () => {
+      applyLanguage(langSelect.value);
+    });
+
+    /* ---------- データ読み込み ---------- */
     fetch('data.json?cachebust=' + Date.now(), { cache: "no-store" })
       .then(res => res.json())
       .then(days => {
