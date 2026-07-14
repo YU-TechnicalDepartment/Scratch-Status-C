@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Terms & Privacy - Scratch Cloud Status</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <script type="module" src="https://esm.run/@material/web/all.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --md-sys-color-primary: #6750A4;
+      --md-sys-color-surface: #FFFBFE;
+      --md-sys-color-on-surface: #1C1B1F;
+      --md-sys-color-outline: #79747E;
+      --md-sys-color-error: #B3261E;
+      --md-sys-color-success: #4CAF50;
+      
+      --md-sys-color-surface-variant: #E7E0EC;
+      --md-sys-color-on-surface-variant: #49454F;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --md-sys-color-primary: #6750A4;
+        --md-sys-color-surface: #1C1B1F;
+        --md-sys-color-on-surface: #E6E1E5;
+        --md-sys-color-outline: #938F99;
+        --md-sys-color-error: #F2B8B5;
+        --md-sys-color-success: #81C995;
+
+        --md-sys-color-surface-variant: #49454F;
+        --md-sys-color-on-surface-variant: #CAC4D0;
+      }
+    }
+
+    body {
+      margin: 0;
+      background: var(--md-sys-color-surface);
+      font-family: "Roboto", sans-serif;
+      color: var(--md-sys-color-on-surface);
+      line-height: 1.6;
+    }
+
+    /* メインページと完全に高さを統一するためのヘッダー調整 */
+    header {
+      background: var(--md-sys-color-primary);
+      color: white;
+      padding: 20px 24px;
+      font-size: 24px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      line-height: 1.2; /* 行高を固定してズレを防止 */
+      box-sizing: border-box;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.2;
+    }
+
+    #lang-area {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #lang-select {
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 24px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    md-elevated-card {
+      width: 100%;
+      padding: 28px;
+      box-sizing: border-box;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 18px;
+      border-bottom: 1px solid var(--md-sys-color-outline);
+      padding-bottom: 6px;
+      margin-top: 32px;
+      color: var(--md-sys-color-primary);
+    }
+
+    h3 {
+      font-size: 15px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    p, li {
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 14px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .meta-date {
+      font-size: 13px;
+      color: var(--md-sys-color-outline);
+      margin-bottom: 24px;
+    }
+
+    .contact-link {
+      color: var(--md-sys-color-primary);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="index.html">
+      <span class="material-symbols-rounded">cloud_sync</span>
+      Scratch Cloud Status
+    </a>
+
+    <div id="lang-area">
+      <span class="material-symbols-rounded">public</span>
+      <select id="lang-select">
+        <option value="ja">日本語</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="container">
+    <a href="index.html" class="back-link">
+      <span class="material-symbols-rounded" style="font-size: 18px;">arrow_back</span>
+      <span id="back-text">ステータスページに戻る</span>
+    </a>
+
+    <md-elevated-card>
+      <h1 id="tos-main-title">利用規約</h1>
+      <div class="meta-date" id="tos-date">策定日: 2026年7月14日</div>
+      
+      <p id="tos-intro">本利用規約（以下「本規約」）は、「Scratch Cloud Status」（以下「当サービス」）が提供するWebサイトおよび情報の利用条件を定めるものです。利用者の皆様（以下「ユーザー」）には、本規約に従って当サービスをご利用いただきます。当サービスを利用した時点で、本規約のすべての内容に同意したものとみなします。</p>
+      
+      <h2 id="tos-h1">1. サービス内容およびデータの正確性</h2>
+      <p id="tos-p1">当サービスは、Scratch（マサチューセッツ工科大学メディアラボが開発・運営するサービス）におけるクラウド変数の稼働状況を監視し、その結果を視覚化して提供する非公式のステータスページです。提供する情報には万全を期していますが、自動巡回の仕組み上、一時的なデータの誤り、遅延、欠損が発生する場合があります。当サービスが提供する情報の正確性、完全性、有用性について、管理者は一切保証いたしません。</p>
+      
+      <h2 id="tos-h2">2. 免責事項</h2>
+      <p id="tos-p2">当サービスの利用に関連して発生したユーザーの損害（直接的・間接的問わず、ネットワーク障害、データの消失、その他のトラブルを含む）について、管理者は一切の責任を負いません。また、当サービスは予告なしに一時休止、永久的な停止、または内容の変更を行うことがあり、これに伴う損害についても同様に一切の免責とさせていただきます。</p>
+      
+      <h2 id="tos-h3">3. 禁止事項</h2>
+      <p id="tos-p3">ユーザーは、当サービスの利用にあたり、以下の行為を行ってはなりません。</p>
+      <ul id="tos-list2">
+        <li>当サービスのサーバー、システム、ネットワークに対して過度な負荷をかける行為（DDoS攻撃、スクレイピング、脆弱性を突いた意図的な大量アクセス等）。</li>
+        <li>当サービスが利用するAPIやバックエンドデータの不正な改ざん、または解析（リバースエンジニアリング等）。</li>
+        <li>管理者や他の第三者に成りすます行為、または当サービスの信用を著しく損なうと判断される行為。</li>
+        <li>その他、公序良俗に反する行為、または管理者が不適切と判断した行為。</li>
+      </ul>
+
+      <h2 id="tos-h4">4. 規約の変更</h2>
+      <p id="tos-p4">当サービスは、法令の変更やサービス運営上の必要性に応じて、ユーザーへの個別の事前通知を行うことなく、いつでも本規約を変更できるものとします。変更後の利用規約は、当Webサイト上に掲載された時点より効力を生じるものとし、継続して利用される場合は変更後の規約に同意したものとみなします。</p>
+    </md-elevated-card>
+
+    <md-elevated-card>
+      <h1 id="pp-main-title">プライバシーポリシー</h1>
+      <div class="meta-date" id="pp-date">策定日: 2026年7月14日</div>
+      
+      <p id="pp-intro">当サービスでは、利用者の個人情報の保護を極めて重要視しています。以下に、当サービスにおけるアクセス情報等の取り扱い（プライバシーポリシー）を定め、これを遵守します。</p>
+
+      <h2 id="pp-h1">1. アクセス解析ツールの利用について</h2>
+      <p id="pp-p1">当サービスでは、サイトの利用状況を把握し、サービス改善を行うためにGoogleによるアクセス解析ツール「Googleアナリティクス」を利用しています。このGoogleアナリティクスは、情報の収集のためにクッキー（Cookie）を使用しています。</p>
+      <h3 id="pp-sub-h1">クッキー（Cookie）の取り扱いについて</h3>
+      <p id="pp-p1-sub">クッキーに記録されるデータは完全に匿名化されており、特定の個人を識別できる情報（氏名、メールアドレス、電話番号など）は一切含まれません。ユーザーは、お使いのブラウザの設定でCookieを無効にすることにより、このデータ収集を拒否することができます。詳細な設定方法については、ご利用のブラウザのヘルプ等をご確認ください。</p>
+      
+      <h2 id="pp-h2">2. 収集した情報の利用目的</h2>
+      <p id="pp-p2">収集したアクセス統計情報は、以下の目的のみに厳密に使用されます。これらを第三者に開示・提供することはありません。</p>
+      <ul id="pp-list2">
+        <li>当サービスの接続パフォーマンスの監視、およびサーバー障害の検知・改善。</li>
+        <li>ユーザー全体のアクセス傾向（滞在時間や訪問国など）の分析による、UI/UXデザインの最適化。</li>
+      </ul>
+
+      <h2 id="pp-h3">3. 外部連絡先およびコメントの取り扱い</h2>
+      <p id="pp-p3">ユーザーが当サービスの提案やお知らせに関して、管理者指定のScratchプロジェクト（外部プラットフォーム）に送信したフィードバックやコメント、ユーザー名などの情報は、機能改修の検討やユーザー対応以外の目的には使用しません。また、個人情報の開示や、意図しない外部公開を行うことはありません。</p>
+
+      <h2 id="pp-h4">4. お問い合わせ</h2>
+      <p id="pp-p4">本ポリシーに関するご意見、ご質問、その他のご連絡は、以下の連絡先リンクよりお寄せください。</p>
+      <p id="pp-p4-link-container">
+        <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer" id="pp-contact-link">
+          Scratch連絡用プロジェクトを開く
+        </a>
+      </p>
+    </md-elevated-card>
+  </div>
+
+  <script>
+    /* ---------- 言語切り替えスクリプト ---------- */
+    const texts = {
+      ja: {
+        backText: "ステータスページに戻る",
+        tosMainTitle: "利用規約",
+        tosDate: "策定日: 2026年7月14日",
+        tosIntro: "本利用規約（以下「本規約」）は、「Scratch Cloud Status」（以下「当サービス」）が提供するWebサイトおよび情報の利用条件を定めるものです。利用者の皆様（以下「ユーザー」）には、本規約に従って当サービスをご利用いただきます。当サービスを利用した時点で、本規約のすべての内容に同意したものとみなします。",
+        tosH1: "1. サービス内容およびデータの正確性",
+        tosP1: "当サービスは、Scratch（マサチューセッツ工科大学メディアラボが開発・運営するサービス）におけるクラウド変数の稼働状況を監視し、その結果を視覚化して提供する非公式のステータスページです。提供する情報には万全を期していますが、自動巡回の仕組み上、一時的なデータの誤り、遅延、欠損が発生する場合があります。当サービスが提供する情報の正確性、完全性、有用性について、管理者は一切保証いたしません。",
+        tosH2: "2. 免責事項",
+        tosP2: "当サービスの利用に関連して発生したユーザーの損害（直接的・間接的問わず、ネットワーク障害、データの消失、その他のトラブルを含む）について、管理者は一切の責任を負いません。また、当サービスは予告なしに一時休止、永久的な停止、または内容の変更を行うことがあり、これに伴う損害についても同様に一切の免責とさせていただきます。",
+        tosH3: "3. 禁止事項",
+        tosP3: "ユーザーは、当サービスの利用にあたり、以下の行為を行ってはなりません。",
+        tosL2_1: "当サービスのサーバー、システム、ネットワークに対して過度な負荷をかける行為（DDoS攻撃、スクレイピング、脆弱性を突いた意図的な大量アクセス等）。",
+        tosL2_2: "当サービスが利用するAPIやバックエンドデータの不正な改ざん、または解析（リバースエンジニアリング等）。",
+        tosL2_3: "管理者や他の第三者に成りすます行為、または当サービスの信用を著しく損なうと判断される行為。",
+        tosL2_4: "その他、公序良俗に反する行為、または管理者が不適切と判断した行為。",
+        tosH4: "4. 規約の変更",
+        tosP4: "当サービスは、法令の変更やサービス運営上の必要性に応じて、ユーザーへの個別の事前通知を行うことなく、いつでも本規約を変更できるものとします。変更後の利用規約は、当Webサイト上に掲載された時点より効力を生じるものとし、継続して利用される場合は変更後の規約に同意したものとみなします。",
+        
+        ppMainTitle: "プライバシーポリシー",
+        ppDate: "策定日: 2026年7月14日",
+        ppIntro: "当サービスでは、利用者の個人情報の保護を極めて重要視しています。以下に、当サービスにおけるアクセス情報等の取り扱い（プライバシーポリシー）を定め、これを遵守します。",
+        ppH1: "1. アクセス解析ツールの利用について",
+        ppP1: "当サービスでは、サイトの利用状況を把握し、サービス改善を行うためにGoogleによるアクセス解析ツール「Googleアナリティクス」を利用しています。このGoogleアナリティクスは、情報の収集のためにクッキー（Cookie）を使用しています。",
+        ppSubH1: "クッキー（Cookie）の取り扱いについて",
+        ppP1Sub: "クッキーに記録されるデータは完全に匿名化されており、特定の個人を識別できる情報（氏名、メールアドレス、電話番号など）は一切含まれません。ユーザーは、お使いのブラウザの設定でCookieを無効にすることにより、このデータ収集を拒否することができます。詳細な設定方法については、ご利用のブラウザのヘルプ等をご確認ください。",
+        ppH2: "2. 収集した情報の利用目的",
+        ppP2: "収集したアクセス統計情報は、以下の目的のみに厳密に使用されます。これらを第三者に開示・提供することはありません。",
+        ppL2_1: "当サービスの接続パフォーマンスの監視、およびサーバー障害の検知・改善。",
+        ppL2_2: "ユーザー全体のアクセス傾向（滞在時間や訪問国など）の分析による、UI/UXデザインの最適化。",
+        ppH3: "3. 外部連絡先およびコメントの取り扱い",
+        ppP3: "ユーザーが当サービスの提案やお知らせに関して、管理者指定のScratchプロジェクト（外部プラットフォーム）に送信したフィードバックやコメント、ユーザー名などの情報は、機能改修の検討やユーザー対応以外の目的には使用しません。また、個人情報の開示や、意図しない外部公開を行うことはありません。",
+        ppH4: "4. お問い合わせ",
+        ppP4: "本ポリシーに関するご意見、ご質問、その他のご連絡は、以下の連絡先リンクよりお寄せください。",
+        ppContactLink: "Scratch連絡用プロジェクトを開く"
+      },
+      en: {
+        backText: "Back to Status Page",
+        tosMainTitle: "Terms of Service",
+        tosDate: "Effective Date: July 14, 2026",
+        tosIntro: "These Terms of Service (hereinafter 'the Terms') define the conditions of use for 'Scratch Cloud Status' (hereinafter 'the Service'). By accessing or using the Service, users agree to be bound by these Terms.",
+        tosH1: "1. Service and Data Accuracy",
+        tosP1: "The Service is an unofficial status page that monitors and visualizes the availability of cloud variables on Scratch (developed and operated by the MIT Media Lab). While we strive for accuracy, technical errors, delays, or data gaps may occur. We do not guarantee the accuracy, completeness, or usefulness of the data.",
+        tosH2: "2. Disclaimer of Liability",
+        tosP2: "The administrator of this Service shall not be liable for any damages (direct or indirect, including network failure, data loss, or other troubles) arising from the use of this Service. We reserve the right to temporarily suspend, permanently shut down, or modify the Service without prior notice.",
+        tosH3: "3. Prohibited Activities",
+        tosP3: "Users are prohibited from engaging in the following actions:",
+        tosL2_1: "Imposing excessive load on the servers, systems, or networks (e.g., DDoS attacks, scraping, or heavy automated traffic).",
+        tosL2_2: "Tampering with or attempting to reverse-engineer the APIs or backend data used by the Service.",
+        tosL2_3: "Impersonating the administrator or third parties, or actions that damage the Service's reputation.",
+        tosL2_4: "Any other behavior deemed inappropriate or disruptive to public order.",
+        tosH4: "4. Modifications to the Terms",
+        tosP4: "We reserve the right to modify these Terms at any time without prior notice. The updated Terms become effective immediately upon being posted. Continued use of the Service constitutes agreement to the updated Terms.",
+        
+        ppMainTitle: "Privacy Policy",
+        ppDate: "Effective Date: July 14, 2026",
+        ppIntro: "We respect and protect user privacy. This policy outlines how we handle access data and comments related to the Service.",
+        ppH1: "1. Access Analysis Tools",
+        ppP1: "The Service uses 'Google Analytics' to understand usage and make improvements. Google Analytics utilizes cookies to collect data.",
+        ppSubH1: "Handling of Cookies",
+        ppP1Sub: "The data recorded by cookies is completely anonymous and does not include personally identifiable information (such as name, email address, or phone number). You can refuse this data collection by disabling cookies in your browser settings.",
+        ppH2: "2. Purpose of Data Use",
+        ppP2: "Collected analytical data is used strictly for the following purposes and will never be shared with third parties:",
+        ppL2_1: "Monitoring performance and detecting/fixing server issues.",
+        ppL2_2: "Optimizing UI/UX design based on general visitor trends (e.g., page duration, geographic region).",
+        ppH3: "3. Contact and Comment Policy",
+        ppP3: "Any feedback, usernames, or comments sent via the designated Scratch project will only be used to evaluate feature requests and address user support. We will not use this information for any other purposes.",
+        ppH4: "4. Contact Us",
+        ppP4: "For inquiries or suggestions regarding this policy, please visit the contact link below.",
+        ppContactLink: "Open Scratch Contact Project"
+      }
+    };
+
+    const langSelect = document.getElementById("lang-select");
+
+    function applyLanguage(lang) {
+      document.getElementById("back-text").textContent = texts[lang].backText;
+      
+      // TOS
+      document.getElementById("tos-main-title").textContent = texts[lang].tosMainTitle;
+      document.getElementById("tos-date").textContent = texts[lang].tosDate;
+      document.getElementById("tos-intro").textContent = texts[lang].tosIntro;
+      document.getElementById("tos-h1").textContent = texts[lang].tosH1;
+      document.getElementById("tos-p1").textContent = texts[lang].tosP1;
+      document.getElementById("tos-h2").textContent = texts[lang].tosH2;
+      document.getElementById("tos-p2").textContent = texts[lang].tosP2;
+      document.getElementById("tos-h3").textContent = texts[lang].tosH3;
+      document.getElementById("tos-p3").textContent = texts[lang].tosP3;
+      
+      const tosList = document.getElementById("tos-list2").getElementsByTagName("li");
+      tosList[0].textContent = texts[lang].tosL2_1;
+      tosList[1].textContent = texts[lang].tosL2_2;
+      tosList[2].textContent = texts[lang].tosL2_3;
+      tosList[3].textContent = texts[lang].tosL2_4;
+      
+      document.getElementById("tos-h4").textContent = texts[lang].tosH4;
+      document.getElementById("tos-p4").textContent = texts[lang].tosP4;
+
+      // Privacy Policy
+      document.getElementById("pp-main-title").textContent = texts[lang].ppMainTitle;
+      document.getElementById("pp-date").textContent = texts[lang].ppDate;
+      document.getElementById("pp-intro").textContent = texts[lang].ppIntro;
+      document.getElementById("pp-h1").textContent = texts[lang].ppH1;
+      document.getElementById("pp-p1").textContent = texts[lang].ppP1;
+      document.getElementById("pp-sub-h1").textContent = texts[lang].ppSubH1;
+      document.getElementById("pp-p1-sub").textContent = texts[lang].ppP1Sub;
+      document.getElementById("pp-h2").textContent = texts[lang].ppH2;
+      document.getElementById("pp-p2").textContent = texts[lang].ppP2;
+      
+      const ppList = document.getElementById("pp-list2").getElementsByTagName("li");
+      ppList[0].textContent = texts[lang].ppL2_1;
+      ppList[1].textContent = texts[lang].ppL2_2;
+      
+      document.getElementById("pp-h3").textContent = texts[lang].ppH3;
+      document.getElementById("pp-p3").textContent = texts[lang].ppP3;
+      document.getElementById("pp-h4").textContent = texts[lang].ppH4;
+      document.getElementById("pp-p4").textContent = texts[lang].ppP4;
+      
+      const contactLink = document.getElementById("pp-contact-link");
+      contactLink.textContent = texts[lang].ppContactLink;
+    }
+
+    langSelect.addEventListener("change", () => {
+      applyLanguage(langSelect.value);
+    });
+  </script>
+</body>
+</html>
