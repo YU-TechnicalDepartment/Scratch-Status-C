@@ -5,10 +5,8 @@
   <title>Scratch Cloud Status</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  <!-- Material Web Components -->
   <script type="module" src="https://esm.run/@material/web/all.js"></script>
 
-  <!-- Material Icons & Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
 
@@ -56,6 +54,8 @@
       align-items: center;
       gap: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      line-height: 1.2;
+      box-sizing: border-box;
     }
 
     /* 言語切り替え UI */
@@ -156,9 +156,35 @@
     .contact-link:hover {
       text-decoration: underline;
     }
+
+    /* 統一デザインのフッタースタイル */
+    footer {
+      text-align: center;
+      padding: 32px 16px 24px 16px;
+      font-size: 13px;
+      color: var(--md-sys-color-outline);
+    }
+
+    .footer-links {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .copyright {
+      opacity: 0.8;
+    }
   </style>
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TZTJF25RP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -173,7 +199,6 @@
     <span class="material-symbols-rounded">cloud_sync</span>
     Scratch Cloud Status
 
-    <!-- 言語切り替え UI -->
     <div id="lang-area">
       <span class="material-symbols-rounded">public</span>
       <select id="lang-select">
@@ -218,6 +243,15 @@
 
   </div>
 
+  <footer>
+    <div class="footer-links">
+      <a href="TP.html" id="footer-tos-link">利用規約</a>
+      <span style="color: var(--md-sys-color-outline);">•</span>
+      <a href="TP.html" id="footer-pp-link">プライバシーポリシー</a>
+    </div>
+    <div class="copyright">© 2026 Scratch Cloud Status</div>
+  </footer>
+
   <div id="tooltip" class="tooltip"></div>
 
   <script>
@@ -235,7 +269,11 @@
         statusDesc: "Scratchクラウド変数の稼働状況を日次で記録しています。<br>緑は正常稼働、赤は異常があった日を表します。",
         more: "もっと見る",
         contact: "お問い合わせ",
-        contactDesc: `機能の提案などは、<a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">こちら</a>からお願いします。`
+        contactDesc: `機能の提案などは、<a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">こちら</a>からお願いします。`,
+        
+        // フッター用言語データ
+        footerTos: "利用規約",
+        footerPp: "プライバシーポリシー"
       },
 
       en: {
@@ -250,7 +288,11 @@
         statusDesc: "Daily records of Scratch Cloud Variable availability.<br>Green means normal operation, red indicates an issue.",
         more: "Show more",
         contact: "Contact",
-        contactDesc: `For feature requests, please visit <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">this page</a>.`
+        contactDesc: `For feature requests, please visit <a class="contact-link" href="https://scratch.mit.edu/projects/1035981046/" target="_blank" rel="noopener noreferrer">this page</a>.`,
+        
+        // フッター用言語データ
+        footerTos: "Terms of Service",
+        footerPp: "Privacy Policy"
       }
     };
 
@@ -264,6 +306,10 @@
         `<span class="material-symbols-rounded">arrow_back</span>${texts[lang].more}`;
       document.getElementById("contact-title").innerHTML = texts[lang].contact;
       document.getElementById("contact-desc").innerHTML = texts[lang].contactDesc;
+
+      // フッターのテキスト切り替え処理を追加
+      document.getElementById("footer-tos-link").textContent = texts[lang].footerTos;
+      document.getElementById("footer-pp-link").textContent = texts[lang].footerPp;
 
       if (window._lastUptimeData) {
         const { uptime, green, red } = window._lastUptimeData;
